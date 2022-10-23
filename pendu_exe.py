@@ -1,4 +1,6 @@
 from random import*
+import os
+import sys
 
 def dessinPendu(nb):
     tab=[
@@ -70,18 +72,28 @@ def dessinPendu(nb):
     ]
     return tab[nb]
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 def restart():
     continuer=input("Voulez-vous faire encore une partie ('y' ou 'n') : ")
     if continuer=='y':
         pendu()
     else:
-        exit()
+        sys.exit()
 
 def pendu():
     lettres_utilisees=[]
     mots=[]
     nb_erreurs=0
-    with open("dico.txt", "r", encoding="utf-8") as filin:
+    with open(resource_path("dico.txt"), "r", encoding="utf-8") as filin:
         for ligne in filin:
             mots.append(ligne)
     for mot in range(len(mots)):
