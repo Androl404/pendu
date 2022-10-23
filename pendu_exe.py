@@ -83,7 +83,6 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
-
 def restart():
     continuer=input("Voulez-vous faire encore une partie ('y' ou 'n') : ")
     if continuer=='y':
