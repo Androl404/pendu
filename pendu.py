@@ -1,5 +1,7 @@
 from random import*
 
+score = 0
+
 def dessinPendu(nb):
     tab=[
     """
@@ -78,9 +80,12 @@ def restart():
         exit()
 
 def pendu():
+    global score
     lettres_utilisees=[]
     mots=[]
     nb_erreurs=0
+    lettre_min = [chr(i) for i in range(97, 123)]
+    lettre_maj = [chr(i) for i in range(65, 91)]
     with open("dico.txt", "r", encoding="utf-8") as filin:
         for ligne in filin:
             mots.append(ligne)
@@ -103,28 +108,49 @@ def pendu():
         lettre=input("Saississez une lettre :")
         if lettre in lettres_utilisees:
             print("Tu as déjà utilisé cette lettre !")
-        elif lettre in mot_choisi:
+        if lettre == '':
+            print("Veuillez saisir une lettre.")
+        if lettre not in lettre_maj and lettre not in lettre_min:
+            print("Veuillez saisir un caractère valide. Dommage pour vous !")
+        elif lettre not in lettres_utilisees:
+            if lettre not in lettre_min:
+                lettres_utilisees.append(lettre)
+                for i in range(len(lettre_maj)):
+                    if chr(i+65)==lettre:
+                        lettres_utilisees.append(chr(i+97))
+            else:
+                lettres_utilisees.append(lettre)
+                for i in range(len(lettre_min)):
+                    if chr(i+97)==lettre:
+                        lettres_utilisees.append(chr(i+65))
+        if lettre in lettre_min:
+            for i in range(len(lettre_min)):
+                if lettre_min[i]==lettre:
+                    lettre = chr(i+65)
+        # print(lettres_utilisees)
+        if lettre in mot_choisi:
             for i in range(len(mot_choisi)):
                 if mot_choisi[i]==lettre:
                     mot_cache[i]=lettre
                     #print(mot_cache)
                     if "_" not in mot_cache:
+                        score += 1
                         print("Félicitations, vous avez gagné ! Le mot à deviner était " + mot_choisi + ".")
+                        print("Votre score est désormais de " + str(score) + ".")
                         restart()
                         #exit()
-            #print("ok")
+            # print("ok")
         else:
             print(dessinPendu(nb_erreurs))
             nb_erreurs=nb_erreurs+1
             if nb_erreurs==7:
                 print("Vous avez perdu ! Le mot à trouver était : " + mot_choisi + ". Réessayez et peut-être que vous réussirez !")
+                print("Votre score était de " + str(score) + ". Il a été maintenant réinitialisé à 0.")
+                score = 0
                 restart()
-                #exit()
         for i in range(len(mot_cache)-1):
             print(mot_cache[i], end="")
             print(" ", end="")
         print(mot_cache[-1])
-        if lettre not in lettres_utilisees:
-            lettres_utilisees.append(lettre)
 
 pendu()
