@@ -1,2 +1,0 @@
-pendu_exe.exe
-pause
