@@ -77,7 +77,7 @@ def restart():
     if continuer == 'y':
         pendu()
     else:
-        exit()
+        quit()
 
 def pendu():
     global score
