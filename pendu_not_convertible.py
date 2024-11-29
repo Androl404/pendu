@@ -1,6 +1,4 @@
 from random import*
-import os
-import sys
 
 score = 0
 
@@ -73,15 +71,6 @@ def dessinPendu(nb):
     """
     ]
     return tab[nb]
-
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
 
 def restart():
     continuer = input("Voulez-vous faire encore une partie [y/N] : ").lower()
