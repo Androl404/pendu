@@ -98,7 +98,7 @@ def pendu():
     mots = []
     nb_erreurs = 0
     lettres = [chr(i) for i in range(65, 91)]
-    with open("dico.txt", "r", encoding="utf-8") as filin:
+    with open(resource_path("dico.txt"), "r", encoding="utf-8") as filin:
         for ligne in filin:
             mots.append(ligne)
     for mot in range(len(mots)):
