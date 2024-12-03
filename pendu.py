@@ -4,7 +4,23 @@ from random import*
 import os
 import sys
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 score = 0
+mots = []
+with open(resource_path("dico.txt"), "r", encoding="utf-8") as file:
+    for ligne in file:
+        mots.append(ligne)
+for mot in range(len(mots)):
+    mots[mot] = mots[mot].rstrip('\n')
+lettres = [chr(i) for i in range(65, 91)]
 
 def dessinPendu(nb):
     tab=[
@@ -76,15 +92,6 @@ def dessinPendu(nb):
     ]
     return tab[nb]
 
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
-
 def restart():
     continuer = input("Voulez-vous faire encore une partie [y/N] : ").lower()
     if continuer == 'y':
@@ -93,17 +100,9 @@ def restart():
         quit()
 
 def pendu():
-    global score
+    global score, mots, lettres
     lettres_utilisees = []
-    mots = []
     nb_erreurs = 0
-    lettres = [chr(i) for i in range(65, 91)]
-    with open(resource_path("dico.txt"), "r", encoding="utf-8") as filin:
-        for ligne in filin:
-            mots.append(ligne)
-    for mot in range(len(mots)):
-        mots[mot] = mots[mot].rstrip('\n')
-
     nb = randint(0,len(mots))
     mot_choisi = mots[nb]
     #print(mot_choisi)
